@@ -1,0 +1,101 @@
+@extends('layouts.app')
+
+@section('content')
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+    <h1>My Dashboard</h1>
+    <a href="{{ route('user.submit') }}" class="btn btn-primary" style="width: auto; padding: 10px 24px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 256 256"><path d="M228,128a12,12,0,0,1-12,12H140v76a12,12,0,0,1-24,0V140H40a12,12,0,0,1,0-24h76V40a12,12,0,0,1,24,0v76h76A12,12,0,0,1,228,128Z"></path></svg>
+        <span>Submit New Raw Data</span>
+    </a>
+</div>
+
+@if(Auth::user()->submissions->isEmpty())
+<div class="card" style="text-align: center; padding: 60px;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="var(--text-dim)" viewBox="0 0 256 256"><path d="M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32Zm0,176H48V48H208V208ZM160,128a32,32,0,1,1-32-32A32,32,0,0,1,160,128Z"></path></svg>
+    <h2 style="margin-top: 20px;">No projects yet</h2>
+    <p style="color: var(--text-dim); margin-top: 8px;">Begin by submitting your first raw data package from Google Drive.</p>
+</div>
+@else
+<div class="card">
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Project Name</th>
+                    <th>Submitted Date</th>
+                    <th>Requested Outputs</th>
+                    <th>Status</th>
+                    <th style="text-align: right;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(Auth::user()->submissions as $submission)
+                <tr>
+                    <td>
+                        <strong>{{ $submission->project_name }}</strong>
+                        @if($submission->description)
+                            <br><small style="color: var(--text-dim)">{{ Str::limit($submission->description, 50) }}</small>
+                        @endif
+                    </td>
+                    <td>{{ $submission->created_at->format('M d, Y') }}</td>
+                    <td><small>{{ $submission->output_category }}</small></td>
+                    <td>
+                        <span class="badge badge-{{ strtolower($submission->status) }}">{{ $submission->status }}</span>
+                    </td>
+                    <td>
+                        @if($submission->status === 'completed')
+                        <div style="display: flex; gap: 10px; justify-content: flex-end; align-items: center;">
+                            @if($submission->admin_drive_link)
+                                <a href="{{ $submission->admin_drive_link }}" target="_blank" class="btn btn-primary" style="padding: 8px 16px; font-size: 0.75rem; width: auto; margin: 0; user-select: none;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="white" viewBox="0 0 256 256"><path d="M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,124.69V40a8,8,0,0,0-16,0v84.69L93.66,98.34A8,8,0,0,0,82.34,109.66Z"></path></svg>
+                                    <span>Download</span>
+                                </a>
+                            @endif
+ 
+                             @if($submission->processed_data_path)
+                                <a href="{{ route('user.view', $submission) }}" target="_blank" class="btn btn-primary" style="padding: 8px 16px; font-size: 0.75rem; width: auto; margin: 0; background: var(--secondary); user-select: none;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="white" viewBox="0 0 256 256"><path d="M247.31,124.76c-.35-.79-8.82-19.74-27.65-38.57C194.57,61.11,162.88,48,128,48S61.43,61.11,36.34,86.19c-18.83,18.83-27.3,37.78-27.65,38.57a16,16,0,0,0,0,10.48c.35.79,8.82,19.74,27.65,38.57C61.43,194.89,93.12,208,128,208s66.57-13.11,91.66-38.19c18.83-18.83,27.3-37.78,27.65-38.57A16,16,0,0,0,247.31,124.76ZM128,192c-30.78,0-59.03-10.87-80-30.63a123.44,123.44,0,0,1-21-24.18c.06-.12,5.84-11.9,16.89-23.33C64.93,93.1,95.17,80,128,80s63.07,13.1,84.11,33.86c11.05,11.43,16.83,23.21,16.89,23.33a123.44,123.44,0,0,1-21,24.18C187.03,181.13,158.78,192,128,192Zm0-112a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z"></path></svg>
+                                    <span>View Model</span>
+                                </a>
+                            @endif
+                        </div>
+                        @elseif($submission->status === 'rejected')
+                        <div style="text-align: right;">
+                            <span style="color: #ef4444; font-size: 0.8rem; display: block; margin-bottom: 4px;">Rejected</span>
+                            @if($submission->rejection_reason)
+                                <small style="color: var(--text-dim); font-style: italic; display: block; max-width: 200px; margin-left: auto;">
+                                    Reason: {{ $submission->rejection_reason }}
+                                </small>
+                            @endif
+                        </div>
+                        @else
+                        <div style="text-align: right; display: flex; justify-content: flex-end; align-items: center; gap: 8px;">
+                            <span class="pulse-dot"></span>
+                            <span style="color: var(--text-dim); font-size: 0.82rem; font-weight: 500; letter-spacing: 0.02em;">Processing Data...</span>
+                        </div>
+                        <style>
+                            @keyframes pulse {
+                                0% { transform: scale(0.95); opacity: 0.5; }
+                                50% { transform: scale(1.1); opacity: 1; }
+                                100% { transform: scale(0.95); opacity: 0.5; }
+                            }
+                            .pulse-dot {
+                                width: 8px;
+                                height: 8px;
+                                background-color: var(--primary);
+                                border-radius: 50%;
+                                display: inline-block;
+                                box-shadow: 0 0 10px var(--primary);
+                                animation: pulse 2s infinite ease-in-out;
+                            }
+                        </style>
+                        @endif
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+@endif
+@endsection
