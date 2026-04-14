@@ -3,6 +3,9 @@
 @section('content')
 <div class="glass-card">
     <div class="logo-section">
+        <div style="margin-bottom: 20px;">
+            <span style="font-size: 2rem; font-weight: 700; background: linear-gradient(to right, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">SABAH 3DHUB</span>
+        </div>
         <h1>Welcome</h1>
         <p>Login to your account to continue</p>
     </div>
@@ -11,12 +14,12 @@
         @csrf
         <div class="form-group">
             <label for="email">Email Address</label>
-            <input type="email" name="email" id="email" value="{{ old('email') }}" required autofocus placeholder="admin@3dhub.com">
+            <input type="email" name="email" id="email" value="{{ old('email') }}" required autofocus>
         </div>
 
         <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" name="password" id="password" required placeholder="••••••••">
+            <input type="password" name="password" id="password" required>
         </div>
 
         <button type="submit" class="btn btn-primary" style="margin-top: 10px;">

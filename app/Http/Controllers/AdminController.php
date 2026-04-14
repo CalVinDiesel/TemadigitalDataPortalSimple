@@ -43,7 +43,7 @@ class AdminController extends Controller
 
     public function manageSubmissions()
     {
-        $submissions = Submission::with('user')->latest()->get();
+        $submissions = Submission::with('user')->oldest()->get();
         return view('admin.submissions', compact('submissions'));
     }
 
@@ -53,6 +53,8 @@ class AdminController extends Controller
             'status' => 'required|in:pending,processing,completed,rejected',
             'processed_data_path' => 'nullable|string',
             'admin_drive_link' => 'nullable|url',
+            'terrain_path' => 'nullable|url',
+            'building_path' => 'nullable|url',
             'rejection_reason' => 'nullable|string',
         ]);
 

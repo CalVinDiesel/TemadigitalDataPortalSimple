@@ -13,7 +13,7 @@
         @if(Auth::user()->role === 'admin')
             <div class="sidebar">
                 <div class="logo" style="margin-bottom: 20px; text-align: center;">
-                    <span style="font-size: 1.8rem; font-weight: 700; background: linear-gradient(to right, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">3DHUB</span>
+                    <span style="font-size: 1.8rem; font-weight: 700; background: linear-gradient(to right, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">SABAH 3DHUB</span>
                 </div>
                 
                 <div style="padding: 0 20px 20px; border-bottom: 1px solid var(--border); margin-bottom: 20px; text-align: center;">
@@ -49,7 +49,7 @@
             <nav class="nav-bar">
                 <div class="logo">
                     <a href="{{ route('dashboard') }}" style="text-decoration: none; color: white; display: flex; align-items: center; gap: 10px;">
-                        <span style="font-size: 1.5rem; font-weight: 700; background: linear-gradient(to right, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">3DHUB</span>
+                        <span style="font-size: 1.5rem; font-weight: 700; background: linear-gradient(to right, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">SABAH 3DHUB</span>
                     </a>
                 </div>
                 <div class="nav-links" style="display: flex; align-items: center; gap: 24px;">

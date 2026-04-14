@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Log in | 3DHub Data Portal</title>
+  <title>Log in | SABAH 3DHUB Data Portal</title>
   <script src="{{ asset('assets/') }}/js/theme-init.js"></script>
   <link rel="icon" type="image/x-icon" href="{{ asset('assets/') }}/img/favicon/favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,9 +27,9 @@
       <div class="navbar navbar-expand-lg landing-navbar px-3">
         <a href="{{ route('landing') }}" class="app-brand-link d-flex align-items-center">
           <span class="app-brand-logo demo">
-            <img src="{{ asset('assets/') }}/img/front-pages/landing-page/3DHub logo1.png" alt="3DHub" style="height: 80px; width: auto; max-height: 80px; object-fit: contain; display: block;">
+            <img src="{{ asset('assets/') }}/img/front-pages/landing-page/3DHub logo1.png" alt="SABAH 3DHUB" style="height: 80px; width: auto; max-height: 80px; object-fit: contain; display: block;">
           </span>
-          <span class="app-brand-text demo menu-text fw-bold ms-2 ps-1">3DHub</span>
+          <span class="app-brand-text demo menu-text fw-bold ms-2 ps-1">SABAH 3DHUB</span>
         </a>
         <div class="ms-auto d-flex align-items-center gap-2">
           <!-- Style Switcher -->

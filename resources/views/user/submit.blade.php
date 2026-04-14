@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="glass-card" style="max-width: 600px; margin: 0 auto;">
-    <div class="logo-section">
-        <h1>Submit Raw Data</h1>
+    <div class="logo-section" style="text-align: center;">
+        <h1 style="font-size: 1.8rem; line-height: 1.2; margin-bottom: 8px;">Submit drone or satellite imagery</h1>
         <p>Fill in the details and share your project data link</p>
     </div>
 

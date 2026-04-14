@@ -25,7 +25,7 @@
                     <th>Submitted Date</th>
                     <th>Requested Outputs</th>
                     <th>Status</th>
-                    <th style="text-align: right;">Action</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -44,32 +44,53 @@
                     </td>
                     <td>
                         @if($submission->status === 'completed')
-                        <div style="display: flex; gap: 10px; justify-content: flex-end; align-items: center;">
-                            @if($submission->admin_drive_link)
-                                <a href="{{ $submission->admin_drive_link }}" target="_blank" class="btn btn-primary" style="padding: 8px 16px; font-size: 0.75rem; width: auto; margin: 0; user-select: none;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="white" viewBox="0 0 256 256"><path d="M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,124.69V40a8,8,0,0,0-16,0v84.69L93.66,98.34A8,8,0,0,0,82.34,109.66Z"></path></svg>
-                                    <span>Download</span>
-                                </a>
-                            @endif
- 
-                             @if($submission->processed_data_path)
-                                <a href="{{ route('user.view', $submission) }}" target="_blank" class="btn btn-primary" style="padding: 8px 16px; font-size: 0.75rem; width: auto; margin: 0; background: var(--secondary); user-select: none;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="white" viewBox="0 0 256 256"><path d="M247.31,124.76c-.35-.79-8.82-19.74-27.65-38.57C194.57,61.11,162.88,48,128,48S61.43,61.11,36.34,86.19c-18.83,18.83-27.3,37.78-27.65,38.57a16,16,0,0,0,0,10.48c.35.79,8.82,19.74,27.65,38.57C61.43,194.89,93.12,208,128,208s66.57-13.11,91.66-38.19c18.83-18.83,27.3-37.78,27.65-38.57A16,16,0,0,0,247.31,124.76ZM128,192c-30.78,0-59.03-10.87-80-30.63a123.44,123.44,0,0,1-21-24.18c.06-.12,5.84-11.9,16.89-23.33C64.93,93.1,95.17,80,128,80s63.07,13.1,84.11,33.86c11.05,11.43,16.83,23.21,16.89,23.33a123.44,123.44,0,0,1-21,24.18C187.03,181.13,158.78,192,128,192Zm0-112a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z"></path></svg>
-                                    <span>View Model</span>
-                                </a>
+                        <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 12px;">
+                            <div style="display: flex; gap: 10px; justify-content: flex-start; align-items: center;">
+                                @if($submission->admin_drive_link)
+                                    <a href="{{ $submission->admin_drive_link }}" target="_blank" class="btn btn-primary" style="padding: 10px 20px; font-size: 0.8rem; width: auto; margin: 0; user-select: none;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" viewBox="0 0 256 256" style="margin-right: 6px;"><path d="M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,124.69V40a8,8,0,0,0-16,0v84.69L93.66,98.34A8,8,0,0,0,82.34,109.66Z"></path></svg>
+                                        <span>Download</span>
+                                    </a>
+                                @endif
+    
+                                @if($submission->processed_data_path)
+                                    <a href="{{ route('user.view', $submission) }}" target="_blank" class="btn btn-primary" style="padding: 10px 20px; font-size: 0.8rem; width: auto; margin: 0; background: var(--secondary); user-select: none;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" viewBox="0 0 256 256" style="margin-right: 6px;"><path d="M247.31,124.76c-.35-.79-8.82-19.74-27.65-38.57C194.57,61.11,162.88,48,128,48S61.43,61.11,36.34,86.19c-18.83,18.83-27.3,37.78-27.65,38.57a16,16,0,0,0,0,10.48c.35.79,8.82,19.74,27.65,38.57C61.43,194.89,93.12,208,128,208s66.57-13.11,91.66-38.19c18.83-18.83,27.3-37.78,27.65-38.57A16,16,0,0,0,247.31,124.76ZM128,192c-30.78,0-59.03-10.87-80-30.63a123.44,123.44,0,0,1-21-24.18c.06-.12,5.84-11.9,16.89-23.33C64.93,93.1,95.17,80,128,80s63.07,13.1,84.11,33.86c11.05,11.43,16.83,23.21,16.89,23.33a123.44,123.44,0,0,1-21,24.18C187.03,181.13,158.78,192,128,192Zm0-112a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z"></path></svg>
+                                        <span>View Model</span>
+                                    </a>
+
+                                    <a href="#" class="btn btn-primary" style="padding: 10px 20px; font-size: 0.8rem; width: auto; margin: 0; background: #06b6d4; user-select: none;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" viewBox="0 0 256 256" style="margin-right: 6px;"><path d="M224,144a8,8,0,0,1,0,16c-11.83,0-25.59,4.45-38.64,13.25-16.71,11.27-33.19,18.75-47.36,18.75s-30.65-7.48-47.36-18.75C77.59,164.45,63.83,160,52,160a8,8,0,0,1,0-16c11.83,0,25.59,4.45,38.64,13.25,16.71,11.27,33.19,18.75,47.36,18.75s30.65-7.48,47.36-18.75C198.41,148.45,212.17,144,224,144Zm0-48a8,8,0,0,0,0,16c11.83,0,25.59,4.45,38.64,13.25,16.71,11.27,33.19,18.75,47.36,18.75s30.65-7.48,47.36-18.75C77.59,116.45,63.83,112,52,112a8,8,0,0,0,0-16c11.83,0,25.59,4.45,38.64,13.25,16.71,11.27,33.19,18.75,47.36,18.75s30.65-7.48,47.36-18.75C198.41,100.45,212.17,96,224,96Z"></path></svg>
+                                        <span>Wind & Flood Simulation</span>
+                                    </a>
+                                @endif
+                            </div>
+
+                            @if($submission->processed_data_path)
+                                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px; padding: 12px; min-width: 250px; max-width: 400px; text-align: left; box-shadow: inset 0 0 20px rgba(0,0,0,0.2);">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                        <div style="font-size: 0.65rem; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; opacity: 0.7;">3D Tileset Link</div>
+                                        <button onclick="copyToClipboard('{{ $submission->processed_data_path }}', this)" style="background: none; border: none; padding: 2px; cursor: pointer; display: flex; align-items: center; color: var(--secondary); opacity: 0.8;" title="Copy to clipboard">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 256 256"><path d="M216,40H88A16,16,0,0,0,72,56V72H56A16,16,0,0,0,40,88V216a16,16,0,0,0,16,16H184a16,16,0,0,0,16-16V200h16a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,144H200V88a16,16,0,0,0-16-16H88V56H216Zm-32,32H56V88H184Z"></path></svg>
+                                        </button>
+                                    </div>
+                                    <a href="{{ $submission->processed_data_path }}" target="_blank" style="font-size: 0.75rem; color: var(--text); text-decoration: none; word-break: break-all; line-height: 1.5; display: block; opacity: 0.9;">
+                                        {{ $submission->processed_data_path }}
+                                    </a>
+                                </div>
                             @endif
                         </div>
                         @elseif($submission->status === 'rejected')
-                        <div style="text-align: right;">
+                        <div style="text-align: left;">
                             <span style="color: #ef4444; font-size: 0.8rem; display: block; margin-bottom: 4px;">Rejected</span>
                             @if($submission->rejection_reason)
-                                <small style="color: var(--text-dim); font-style: italic; display: block; max-width: 200px; margin-left: auto;">
+                                <small style="color: var(--text-dim); font-style: italic; display: block; max-width: 250px;">
                                     Reason: {{ $submission->rejection_reason }}
                                 </small>
                             @endif
                         </div>
                         @else
-                        <div style="text-align: right; display: flex; justify-content: flex-end; align-items: center; gap: 8px;">
+                        <div style="text-align: left; display: flex; justify-content: flex-start; align-items: center; gap: 8px;">
                             <span class="pulse-dot"></span>
                             <span style="color: var(--text-dim); font-size: 0.82rem; font-weight: 500; letter-spacing: 0.02em;">Processing Data...</span>
                         </div>
@@ -98,4 +119,17 @@
     </div>
 </div>
 @endif
+@push('scripts')
+<script>
+function copyToClipboard(text, btn) {
+    navigator.clipboard.writeText(text).then(() => {
+        const originalIcon = btn.innerHTML;
+        btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="#10b981" viewBox="0 0 256 256"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L101,194.69,218.34,77.34a8,8,0,0,1,11.32,11.32Z"></path></svg>';
+        setTimeout(() => {
+            btn.innerHTML = originalIcon;
+        }, 2000);
+    });
+}
+</script>
+@endpush
 @endsection

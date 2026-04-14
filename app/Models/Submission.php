@@ -20,7 +20,9 @@ class Submission extends Model
         'status',
         'processed_data_path',
         'admin_drive_link',
-        'rejection_reason'
+        'rejection_reason',
+        'terrain_path',
+        'building_path'
     ];
 
     public function user(): BelongsTo

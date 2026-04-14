@@ -218,7 +218,7 @@ function Sidebar({ isOpen, onToggle, viewer, siteTitle = 'SITE', tilesetUrl, dra
         const loadData = async () => {
             try {
                 const osmBuildings = await (tilesetUrl ? 
-                    Cesium3DTileset.fromUrl(new Resource({ url: tilesetUrl, proxy: new DefaultProxy('/proxy?url=') })) : 
+                    Cesium3DTileset.fromUrl(tilesetUrl) : 
                     Cesium3DTileset.fromIonAssetId(96188));
 
                 viewer.scene.primitives.add(osmBuildings);
