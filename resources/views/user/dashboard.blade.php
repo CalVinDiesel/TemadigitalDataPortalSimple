@@ -59,7 +59,7 @@
                                         <span>View Model</span>
                                     </a>
 
-                                    <a href="#" class="btn btn-primary" style="padding: 10px 20px; font-size: 0.8rem; width: auto; margin: 0; background: #06b6d4; user-select: none;">
+                                    <a href="https://geo.digitalsabah.gov.my/flood/?terrain={{ urlencode($submission->terrain_path ?? '') }}&tiles3d={{ urlencode($submission->processed_data_path ?? '') }}&buildings={{ urlencode($submission->building_path ?? '') }}" target="_blank" class="btn btn-primary" style="padding: 10px 20px; font-size: 0.8rem; width: auto; margin: 0; background: #06b6d4; user-select: none;">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" viewBox="0 0 256 256" style="margin-right: 6px;"><path d="M224,144a8,8,0,0,1,0,16c-11.83,0-25.59,4.45-38.64,13.25-16.71,11.27-33.19,18.75-47.36,18.75s-30.65-7.48-47.36-18.75C77.59,164.45,63.83,160,52,160a8,8,0,0,1,0-16c11.83,0,25.59,4.45,38.64,13.25,16.71,11.27,33.19,18.75,47.36,18.75s30.65-7.48,47.36-18.75C198.41,148.45,212.17,144,224,144Zm0-48a8,8,0,0,0,0,16c11.83,0,25.59,4.45,38.64,13.25,16.71,11.27,33.19,18.75,47.36,18.75s30.65-7.48,47.36-18.75C77.59,116.45,63.83,112,52,112a8,8,0,0,0,0-16c11.83,0,25.59,4.45,38.64,13.25,16.71,11.27,33.19,18.75,47.36,18.75s30.65-7.48,47.36-18.75C198.41,100.45,212.17,96,224,96Z"></path></svg>
                                         <span>Wind & Flood Simulation</span>
                                     </a>
