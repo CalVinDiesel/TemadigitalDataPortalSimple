@@ -61,7 +61,7 @@
 
                                     <button id="geoExplorerBtn"
                                             class="btn btn-primary"
-                                            style="padding:10px 20px;font-size:0.8rem;background:#10b981;border:none;display:flex;align-items:center;cursor:pointer;">
+                                            style="padding: 10px 20px; font-size: 0.8rem; width: auto; margin: 0; background: #10b981; border: none; display: flex; align-items: center; cursor: pointer;">
 
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white"
                                                 viewBox="0 0 256 256" style="margin-right:6px;">
