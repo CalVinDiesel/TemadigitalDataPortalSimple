@@ -15,18 +15,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
-            'name' => 'Administrator',
-            'email' => 'admin@3dhub.com',
-            'password' => bcrypt('password'),
-            'role' => 'admin',
-        ]);
+        $users = [
+            ['name' => 'Administrator', 'email' => 'admin@3dhub.com', 'role' => 'admin'],
+            ['name' => 'Regular User', 'email' => 'user@3dhub.com', 'role' => 'user'],
+            ['name' => 'DisneyAdmin', 'email' => 'disneyadmin@3dhub.com', 'role' => 'admin'],
+            ['name' => 'TemaUser', 'email' => 'temauser@3dhub.com', 'role' => 'user'],
+            ['name' => 'TemaAdmin', 'email' => 'temaadmin@3dhub.com', 'role' => 'admin'],
+            ['name' => 'DgdUser', 'email' => 'dgduser@3dhub.com', 'role' => 'user'],
+            ['name' => 'DgdAdmin', 'email' => 'dgdadmin@3dhub.com', 'role' => 'admin'],
+        ];
 
-        User::create([
-            'name' => 'Regular User',
-            'email' => 'user@3dhub.com',
-            'password' => bcrypt('password'),
-            'role' => 'user',
-        ]);
+        foreach ($users as $userData) {
+            User::create([
+                'name' => $userData['name'],
+                'email' => $userData['email'],
+                'password' => bcrypt('password'),
+                'role' => $userData['role'],
+            ]);
+        }
     }
 }
