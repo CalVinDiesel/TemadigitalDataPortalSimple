@@ -118,4 +118,50 @@ class SubmissionController extends Controller
 
         return redirect()->route('dashboard')->with('success', 'Submission sent successfully!');
     }
+    public function storeExternal(Request $request)
+    {
+        $request->validate([
+            'project_name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'processed_data_path' => 'nullable|url',
+            'terrain_path' => 'nullable|url',
+            'building_path' => 'nullable|url',
+            'orthophoto_path' => 'nullable|url',
+            'google_drive_link' => 'nullable|url',
+            'sftp_host' => 'nullable|string',
+            'sftp_port' => 'nullable|integer',
+            'sftp_username' => 'nullable|string',
+            'sftp_password' => 'nullable|string',
+            'sftp_path' => 'nullable|string',
+        ]);
+
+        // Validation: Must provide either a Direct URL or a Transfer Link
+        if (!$request->processed_data_path && !$request->google_drive_link && !$request->sftp_host) {
+            return back()->withErrors(['processed_data_path' => 'Please provide either a Direct URL or a transfer link (Google Drive/SFTP).'])->withInput();
+        }
+
+        Submission::create([
+            'user_id' => Auth::id(),
+            'project_name' => $request->project_name,
+            'description' => $request->description,
+            'status' => 'pending',
+            'output_category' => '3D Tiles',
+            'submission_type' => 'external',
+            'processed_data_path' => $request->processed_data_path,
+            'terrain_path' => $request->terrain_path,
+            'building_path' => $request->building_path,
+            'orthophoto_path' => $request->orthophoto_path,
+            'google_drive_link' => $request->google_drive_link,
+            'sftp_host' => $request->sftp_host,
+            'sftp_port' => $request->sftp_port ?? 22,
+            'sftp_username' => $request->sftp_username,
+            'sftp_password' => $request->sftp_password,
+            'sftp_path' => $request->sftp_path,
+            'camera_config' => 'Single-Lens',
+            'category' => 'External Registration',
+            'image_metadata' => 'EXIF',
+        ]);
+
+        return redirect()->route('dashboard')->with('success', 'External model registered successfully. It will appear on your dashboard once verified by the Admin.');
+    }
 }

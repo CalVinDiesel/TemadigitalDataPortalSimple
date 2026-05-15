@@ -13,6 +13,11 @@ class UserController extends Controller
         return view('user.submit');
     }
 
+    public function showRegisterModelForm()
+    {
+        return view('user.register_model');
+    }
+
     public function viewProject(Submission $submission)
     {
         // Only allow user to view their own projects or admin to view all
