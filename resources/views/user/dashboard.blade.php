@@ -3,10 +3,16 @@
 @section('content')
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
     <h1>My Dashboard</h1>
-    <a href="{{ route('user.submit') }}" class="btn btn-primary" style="width: auto; padding: 10px 24px;">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 256 256"><path d="M228,128a12,12,0,0,1-12,12H140v76a12,12,0,0,1-24,0V140H40a12,12,0,0,1,0-24h76V40a12,12,0,0,1,24,0v76h76A12,12,0,0,1,228,128Z"></path></svg>
-        <span>Submit New Raw Data</span>
-    </a>
+    <div style="display: flex; gap: 12px;">
+        <a href="{{ route('user.register_model') }}" class="btn btn-primary" style="width: auto; padding: 10px 24px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"></path></svg>
+            <span>Register Existing Model</span>
+        </a>
+        <a href="{{ route('user.submit') }}" class="btn btn-primary" style="width: auto; padding: 10px 24px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 256 256"><path d="M228,128a12,12,0,0,1-12,12H140v76a12,12,0,0,1-24,0V140H40a12,12,0,0,1,0-24h76V40a12,12,0,0,1,24,0v76h76A12,12,0,0,1,228,128Z"></path></svg>
+            <span>Submit New Raw Data</span>
+        </a>
+    </div>
 </div>
 
 @if(Auth::user()->submissions->isEmpty())
@@ -17,6 +23,17 @@
 </div>
 @else
 <div class="card">
+    <div style="padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+        <h3 style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim);">Project List</h3>
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <label style="font-size: 0.8rem; color: var(--text-dim);">Filter:</label>
+            <select id="typeFilter" onchange="filterProjects()" style="background: rgba(0,0,0,0.2); color: white; border: 1px solid var(--border); padding: 4px 8px; border-radius: 6px; font-size: 0.8rem; outline: none;">
+                <option value="all">All Projects</option>
+                <option value="processing">DGD Processed</option>
+                <option value="external">External Models</option>
+            </select>
+        </div>
+    </div>
     <div class="table-container">
         <table>
             <thead>
@@ -30,11 +47,14 @@
             </thead>
             <tbody>
                 @foreach(Auth::user()->submissions as $submission)
-                <tr>
+                <tr class="project-row" data-type="{{ $submission->submission_type }}">
                     <td>
                         <strong>{{ $submission->project_name }}</strong>
                         @if($submission->description)
                             <br><small style="color: var(--text-dim)">{{ Str::limit($submission->description, 50) }}</small>
+                        @endif
+                        @if($submission->submission_type === 'external')
+                            <br><span style="font-size: 0.65rem; background: rgba(59, 130, 246, 0.1); color: #3b82f6; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(59, 130, 246, 0.3); text-transform: uppercase; margin-top: 4px; display: inline-block; font-weight: bold; letter-spacing: 0.5px;">External Model</span>
                         @endif
                     </td>
                     <td>{{ $submission->created_at->format('M d, Y') }}</td>
@@ -65,8 +85,8 @@
                                         <span>View Model</span>
                                     </a>
 
-                                    <button id="geoExplorerBtn"
-                                            class="btn btn-primary"
+                                    <button class="btn btn-primary geoExplorerBtn"
+                                            data-url="{{ $submission->processed_data_path }}"
                                             style="padding: 10px 20px; font-size: 0.8rem; width: auto; margin: 0; background: #10b981; border: none; display: flex; align-items: center; cursor: pointer;">
 
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white"
@@ -208,41 +228,55 @@ function copyToClipboard(text, btn) {
     });
 }
 
-document.getElementById('geoExplorerBtn').addEventListener('click', async function () {
+document.querySelectorAll('.geoExplorerBtn').forEach(button => {
+    button.addEventListener('click', async function () {
+        const tilesetUrl = this.getAttribute('data-url');
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 
-    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+        if (!csrfToken) {
+            console.error("Missing CSRF token");
+            return;
+        }
 
-    if (!csrfToken) {
-        console.error("Missing CSRF token");
-        return;
-    }
+        try {
+            const res = await fetch('https://explorer.digitalsabah.gov.my/api/load', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                },
+                body: JSON.stringify({
+                    url: tilesetUrl,
+                    type: "load"
+                })
+            });
 
-    try {
-        const res = await fetch('https://explorer.digitalsabah.gov.my/api/load', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken,
-            },
-            body: JSON.stringify({
-                url: "https://demo-services.geovidia.my/Penampang/3DTiles/tileset.json",
-                type: "load"
-            })
-        });
+            const data = await res.json();
+            console.log("POST result:", data);
 
-        const data = await res.json();
-        console.log("POST result:", data);
+            // ✅ OPEN IN NEW TAB
+            window.open(
+                "https://explorer.digitalsabah.gov.my/map",
+                "_blank"
+            );
 
-        // ✅ OPEN IN NEW TAB
-        window.open(
-            "https://explorer.digitalsabah.gov.my/map",
-            "_blank"
-        );
-
-    } catch (err) {
-        console.error("Load error:", err);
-    }
+        } catch (err) {
+            console.error("Load error:", err);
+        }
+    });
 });
+function filterProjects() {
+    const filterValue = document.getElementById('typeFilter').value;
+    const rows = document.querySelectorAll('.project-row');
+
+    rows.forEach(row => {
+        if (filterValue === 'all' || row.dataset.type === filterValue) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
 </script>
 @endpush
 @endsection

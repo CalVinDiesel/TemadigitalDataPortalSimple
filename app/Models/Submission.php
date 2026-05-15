@@ -9,6 +9,7 @@ class Submission extends Model
 {
     protected $fillable = [
         'user_id',
+        'submission_type',
         'project_name',
         'description',
         'camera_config',

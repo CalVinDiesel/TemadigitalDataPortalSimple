@@ -27,6 +27,9 @@
                     <td>
                         <strong>{{ $submission->project_name }}</strong><br>
                         <small style="color: var(--text-dim)">{{ $submission->created_at->format('M d, Y') }}</small>
+                        @if($submission->submission_type === 'external')
+                            <br><span style="font-size: 0.65rem; background: rgba(59, 130, 246, 0.1); color: #3b82f6; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(59, 130, 246, 0.3); text-transform: uppercase; margin-top: 4px; display: inline-block;">External Model</span>
+                        @endif
                     </td>
                     <td>
                         {{ $submission->camera_config }}<br>
@@ -56,6 +59,23 @@
                                 <strong>User name:</strong> {{ $submission->sftp_username }}<br>
                                 <strong>Password:</strong> {{ $submission->sftp_password }}<br>
                                 <strong>Data Path:</strong> {{ $submission->sftp_path ?? '/' }}
+                            </div>
+                        @elseif($submission->submission_type === 'external')
+                            <div style="font-size: 0.75rem; background: rgba(59, 130, 246, 0.05); padding: 8px; border-radius: 8px; border: 1px solid rgba(59, 130, 246, 0.2); color: var(--text); line-height: 1.4;">
+                                <div style="display: flex; align-items: center; gap: 4px; color: #3b82f6; font-weight: bold; margin-bottom: 4px; text-transform: uppercase; font-size: 0.65rem;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm48-88a48,48,0,1,1-48-48A48.05,48.05,0,0,1,176,128Z"></path></svg>
+                                    <span>USER PROVIDED LINKS</span>
+                                </div>
+                                <strong>3D Tiles:</strong> <a href="{{ $submission->processed_data_path }}" target="_blank" style="color: var(--primary); text-decoration: none;">View link</a><br>
+                                @if($submission->terrain_path)
+                                    <strong>Terrain:</strong> <a href="{{ $submission->terrain_path }}" target="_blank" style="color: var(--primary); text-decoration: none;">View link</a><br>
+                                @endif
+                                @if($submission->building_path)
+                                    <strong>Building:</strong> <a href="{{ $submission->building_path }}" target="_blank" style="color: var(--primary); text-decoration: none;">View link</a><br>
+                                @endif
+                                @if($submission->orthophoto_path)
+                                    <strong>Ortho:</strong> <a href="{{ $submission->orthophoto_path }}" target="_blank" style="color: var(--primary); text-decoration: none;">View link</a><br>
+                                @endif
                             </div>
                         @else
                             <span style="color: var(--text-dim); font-style: italic;">No source provided</span>
